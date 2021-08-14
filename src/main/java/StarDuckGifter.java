@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Background;
@@ -18,6 +20,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 @ExtensionInfo(
         Title = "StarduckGifter",
@@ -33,10 +37,17 @@ public class StarDuckGifter extends ExtensionForm {
 
     public Label selectedHabboLabel;
     public TextArea amountTxt;
-    private int amount = 0;
     public TextArea habboNameLbl;
+    public Button continueButton;
+    public CheckBox alwaysOnTopChk;
+
     private boolean canSend = false;
+
+    private int amount = 0;
     private int habboID = 0;
+
+    private Stage succesWindow;
+
     public static void main(String[] args) {
         ExtensionFormLauncher.trigger(StarDuckGifter.class, args);
     }
@@ -47,6 +58,7 @@ public class StarDuckGifter extends ExtensionForm {
         Parent root = loader.load();
 
         stage.setTitle("StarduckGifter");
+
         stage.setScene(new Scene(root));
 
         stage.setResizable(false);
@@ -92,9 +104,27 @@ public class StarDuckGifter extends ExtensionForm {
         if(canSend & amount != 0){
             try{
                 packetInfoSupport.sendToServer("GiveStarGemToUser", habboID, amount);
+                openSuccesWindow();
             }catch (Exception e){
 
             }
         }
+    }
+
+    public void closeSuccesWindow(ActionEvent actionEvent) {
+        Stage stage = (Stage) continueButton.getScene().getWindow();
+        stage.close();
+    }
+
+    private void openSuccesWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader(StarDuckGifter.class.getClassLoader().getResource("succes.fxml"));
+        Parent roott = loader.load();
+        succesWindow = new Stage();
+        succesWindow.setScene(new Scene(roott));
+        succesWindow.show();
+    }
+
+    public void setAlwaysOnTop(ActionEvent actionEvent) {
+        primaryStage.setAlwaysOnTop(alwaysOnTopChk.isSelected());
     }
 }
