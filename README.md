@@ -2,7 +2,7 @@
 
 ![](https://user-images.githubusercontent.com/88944709/129458030-445d0dc7-8e3e-4edd-82e0-e95e93804392.png)
 
- Extension for G-Earth 1.14.1. 
+ Extension for G-Earth 1.4.1. 
  Send the desired amount of (available) Starducks to the selected habbo.
 
  How to use:
